@@ -410,11 +410,7 @@ queue()
 
       names = names.slice(0,names.length-1);
 
-      console.log(names);
-
       var scale = d3.scale.ordinal().domain(names.slice(0,names.length-1)).rangeBands([76,216]);
-
-      //console.log(scale.domain(),scale.rangeBands());
 
       var dict = {};
 
@@ -422,8 +418,6 @@ queue()
         var rgb = Math.round(scale(name) || 216);
         dict[name] = "rgb("+[rgb,rgb,rgb].join(",")+")";
       });
-
-      console.log(dict);
 
       return dict;
     }
