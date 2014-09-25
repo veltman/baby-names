@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Lato:400,700,900" type="text/css">
+<link rel="stylesheet" href="jquery.nouislider.css" type="text/css">
+<style>
+
+body {
+  font-family: Lato, Arial, Helvetica, Verdana, sans-serif;
+  font: 12px sans-serif;
+  background-color: #fff;
+}
+
+svg {
+  background-color: #f6f6f6;
+}
+
+path {
+  stroke-width: 1px;
+  stroke: white;
+  fill: #d9d9d9;
+  cursor: pointer;
+}
+
+div {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+div.container {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.grey-dark {
+  fill: #4c4c4c;
+}
+
+.grey-medium {
+  fill: #b3b3b3;
+}
+
+.grey-light {
+  fill: #d9d9d9;
+}
+
+.Mary{
+  fill: rgb(225,201,38);
+}
+
+.Mary.light {
+  fill: rgba(225,201,38,0.2);
+}
+
+.Lisa{
+  fill: rgb(94,182,100);
+}
+
+.Lisa.light {
+  fill: rgba(94,182,100,0.2);
+}
+
+.Jennifer{
+  fill: rgb(240,95,81);
+}
+
+.Jennifer.light {
+  fill: rgba(240,95,81,0.2);
+}
+
+.Ashley{
+  fill: rgb(249,163,46);
+}
+
+.Ashley.light {
+  fill: rgba(249,163,46,0.2);
+}
+
+.Jessica{
+  fill: rgb(84,166,216);
+}
+
+.Jessica.light {
+  fill: rgba(84,166,216,0.2);
+}
+
+.Emily{
+  fill: rgb(177,123,177);
+}
+
+.Emily.light {
+  fill: rgba(177,123,177,0.2);
+}
+
+.Emma{
+  fill: rgb(141,207,187);
+}
+
+.Emma.light {
+  fill: rgba(141,207,187,0.2);
+}
+
+.Isabella{
+  fill: rgb(241,131,173);
+}
+
+.Isabella.light {
+  fill: rgba(241,131,173,0.2);
+}
+
+.Sophia{
+  fill: rgb(179,141,46);
+}
+
+.Sophia.light {
+  fill: rgba(179,141,46,0.2);
+}
+
+.hidden {
+  display: none;
+}
+
+.Madison {
+  fill: rgb(216,0,0);
+}
+
+.Madison.light {
+  fill: rgb(216,0,0,0.2);
+}
+
+
+span.year {
+  position: relative;
+  top: 32px;
+  right: 3px;
+  text-align: center;
+  font-weight: bold;
+  display: block;
+  font-size: 16px;
+  pointer-events: none;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+div#play {
+  cursor: pointer;
+  float: left;
+  width: 51px;
+  height: 51px;
+  border: 1px solid #d9d9d9;
+  border-radius: 3px;
+  background: #fff;
+  padding-top: 15px;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  font-weight: bold;
+  color: #666;
+  box-shadow: inset 0 0 1px #fff,
+   inset 0 1px 7px #ebebeb,
+   0 3px 6px -3px #bbb;
+  text-align: center;
+  position: relative;
+  bottom: 15px;
+  margin-left: 40px;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+div.controls {
+  padding-top: 20px;
+}
+
+div#play:hover {
+   color: #333;
+   border-color: #999;
+}
+
+div#play:active {
+  left: 1px;
+  bottom: 14px;
+}
+
+div#slider {
+  float: left;
+  width: 300px;
+  margin-left: 40px;
+  margin-right: 20px;
+}
+
+div.noUi-base,div.noUi-handle {
+  cursor: pointer;
+}
+
+div.noUi-handle:hover {
+  border-color: #999;
+}
+
+.noUi-connect {
+  background-color: #d9d9d9;
+}
+
+</style>
+<body>
+<div class="container">
+<div class="svg"></div>
+<div class="controls"><div id="play">PLAY</div><div id="slider"></div><div class="clear"></div></div>
+</div>
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script src="http://d3js.org/queue.v1.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="jquery.nouislider.min.js"></script>
+<script>
+
+//Map dimensions (in pixels)
+var width = 600,
+    mapHeight = 350,
+    chartHeight = 60,
+    chartMargin = {top: 20, left: 10, right: 10, bottom: 10},
+    height = mapHeight + chartHeight,
+    minYear = 1960,
+    maxYear = 2012,
+    year = minYear,
+    states,
+    interval,
+    $slider = $("#slider").css("width",(width-151)+"px"),
+    playButton = d3.select("div#play");
+
+//Map projection
+var projection = d3.geo.albersUsa()
+    .scale(730.3062176506107)
+    .translate([width/2,mapHeight/2]) //translate to center the map in view
+
+//Generate paths based on projection
+var path = d3.geo.path()
+    .projection(projection);
+
+//Create an SVG
+var svg = d3.select("div.container")
+      .style("width",width+"px")
+        .select("div.svg")
+          .append("svg")
+            .attr("width", width)
+            .attr("height", height);
+
+var chart = svg.append("g")
+              .attr("class","chart")
+              .attr("transform","translate("+chartMargin.left+" "+(mapHeight+chartMargin.top)+")");
+
+var blocksG = chart.append("g"),
+    blocks;
+
+//Do axis ticks here
+
+queue()
+  .defer(d3.json,"us-states.geojson")
+  .defer(d3.json,"baby-names.json")
+  .await(function(error,geo,data) {
+
+    if (error) return console.log(error); //unknown error, check the console
+
+    //Create a path for each map feature in the data
+    states = svg.selectAll("path")
+      .data(geo.features.filter(function(d){
+        return d.properties.name != "District of Columbia";
+      }))
+      .enter()
+      .append("path")
+      .attr("d",path);
+
+    var blockWidth = Math.round((width - chartMargin.left - chartMargin.right)/data.years.length);
+
+    blocks = blocksG.selectAll("rect")
+              .data(data.years.map(function(ranking){
+                return ranking[0];
+              }))
+              .enter()
+              .append("rect")
+              .attr("width",blockWidth)
+              .attr("height",chartHeight - chartMargin.top - chartMargin.bottom)
+              .attr("x",function(d,i){
+                return i*blockWidth;
+              })
+              .attr("y",0)
+              .attr("class",function(d){
+                return d+" hidden";
+              });
+    
+
+    $slider.noUiSlider({
+      start: minYear,
+      range: {
+        'min': minYear,
+        'max': maxYear
+      },
+      connect: "lower",
+      step: 1
+    });
+
+    $slider.on("slide click",function(e){
+      stop();
+      year = +$(this).val();
+      update();
+    });
+
+    playButton.datum(false).on("click",function(d){
+      if (d) stop();
+      else start();
+    });
+
+    start();
+
+    function start() {
+
+      clearInterval(interval);
+
+      playButton.datum(true).text("STOP");
+
+      update();
+
+      interval = setInterval(update,500);
+
+    }
+
+    function stop() {
+
+      clearInterval(interval);
+
+      playButton.datum(false).text("PLAY");
+
+    }
+
+    function update() {
+
+      blocks.classed("hidden",function(d,i){
+        return i > year - minYear;
+      });
+
+      states.attr("class",function(d){
+
+        var name = data.states[d.properties.name][year - minYear],
+            ranking = data.years[year - minYear];
+
+        console.log(ranking[0],year);
+
+        if (name == ranking[0]) {
+          return name;
+        } else {
+          return "grey-light";
+        }
+
+      });
+
+      $slider.val(year);
+
+      year++;
+
+      if (year > maxYear) {
+        year = minYear;
+      }
+
+    }
+
+  });
+
+</script>
