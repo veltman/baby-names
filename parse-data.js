@@ -56,7 +56,7 @@ queue
     });
 
     counts = d3.entries(counts).sort(function(a,b){
-      return b.value - a.value;
+      return a.value - b.value;
     }).map(function(d){
       return d.key;
     });

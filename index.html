@@ -32,15 +32,15 @@ div.container {
   margin-right: auto;
 }
 
-.grey-dark {
+.grey3 {
   fill: #4c4c4c;
 }
 
-.grey-medium {
+.grey2 {
   fill: #b3b3b3;
 }
 
-.grey-light {
+.grey1 {
   fill: #d9d9d9;
 }
 
@@ -198,6 +198,16 @@ div.noUi-handle:hover {
   background-color: #d9d9d9;
 }
 
+text.state-label {
+  text-anchor: middle;
+  font-size: 13px;
+}
+
+text.state-label.top {
+  font-weight: bold;
+  font-size: 16px;
+}
+
 </style>
 <body>
 <div class="container">
@@ -255,16 +265,36 @@ queue()
   .defer(d3.json,"baby-names.json")
   .await(function(error,geo,data) {
 
+    geo.features = geo.features.filter(function(d){
+      return d.properties.name != "District of Columbia";
+    });
+
     if (error) return console.log(error); //unknown error, check the console
 
     //Create a path for each map feature in the data
     states = svg.selectAll("path")
-      .data(geo.features.filter(function(d){
-        return d.properties.name != "District of Columbia";
-      }))
+      .data(geo.features)
       .enter()
       .append("path")
       .attr("d",path);
+
+    labels = svg.selectAll("text.state-label")
+      .data(geo.features.map(function(d){
+        return {
+          "name": d.properties.name,
+          "center": projection(d3.geo.centroid(d))
+        }
+      }))
+      .enter()
+      .append("text")
+        .attr("class","state-label")
+        .attr("x",function(d){
+          return d.center[0];
+        })
+        .attr("y",function(d){
+          return d.center[1];
+        })
+        .attr("dy","0.25em");
 
     var blockWidth = Math.round((width - chartMargin.left - chartMargin.right)/data.years.length);
 
@@ -332,16 +362,34 @@ queue()
         return i > year - minYear;
       });
 
+      var greys = getGreys(data.years[year - minYear]);
+
       states.attr("class",function(d){
 
         var name = data.states[d.properties.name][year - minYear];
 
         if (name == data.top[year - minYear]) {
           return name;
-        } else {
-          return "grey-light";
         }
 
+        return "";
+
+      }).style("fill",function(d){
+
+        var name = data.states[d.properties.name][year - minYear];
+
+        if (name == data.top[year - minYear]) {
+          return null;
+        }
+
+        return greys[name];
+
+      });
+
+      labels.text(function(d){
+        return data.states[d.name][year - minYear];
+      }).classed("top",function(d){
+        return data.top[year - minYear] == data.states[d.name][year - minYear];
       });
 
       $slider.val(year);
@@ -352,6 +400,32 @@ queue()
         year = minYear;
       }
 
+    }
+
+    function getGreys(names) {
+
+      if (names.length == 1) {
+        return {};
+      }
+
+      names = names.slice(0,names.length-1);
+
+      console.log(names);
+
+      var scale = d3.scale.ordinal().domain(names.slice(0,names.length-1)).rangeBands([76,216]);
+
+      //console.log(scale.domain(),scale.rangeBands());
+
+      var dict = {};
+
+      names.forEach(function(name){
+        var rgb = Math.round(scale(name) || 216);
+        dict[name] = "rgb("+[rgb,rgb,rgb].join(",")+")";
+      });
+
+      console.log(dict);
+
+      return dict;
     }
 
   });
