@@ -120,15 +120,6 @@ div.container {
   display: none;
 }
 
-.Madison {
-  fill: rgb(216,0,0);
-}
-
-.Madison.light {
-  fill: rgb(216,0,0,0.2);
-}
-
-
 span.year {
   position: relative;
   top: 32px;
@@ -278,9 +269,7 @@ queue()
     var blockWidth = Math.round((width - chartMargin.left - chartMargin.right)/data.years.length);
 
     blocks = blocksG.selectAll("rect")
-              .data(data.years.map(function(ranking){
-                return ranking[0];
-              }))
+              .data(data.top)
               .enter()
               .append("rect")
               .attr("width",blockWidth)
@@ -345,12 +334,9 @@ queue()
 
       states.attr("class",function(d){
 
-        var name = data.states[d.properties.name][year - minYear],
-            ranking = data.years[year - minYear];
+        var name = data.states[d.properties.name][year - minYear];
 
-        console.log(ranking[0],year);
-
-        if (name == ranking[0]) {
+        if (name == data.top[year - minYear]) {
           return name;
         } else {
           return "grey-light";

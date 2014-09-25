@@ -1,9 +1,14 @@
 var fs = require("fs"),
-    d3 = require("d3");
+    d3 = require("d3"),
+    queue = require("queue-async")();
 
-fs.readFile("rfb_baby_names.csv","utf8",function(err,data){
+queue
+  .defer(fs.readFile,"rfb_baby_names.csv","utf8")
+  .defer(fs.readFile,"top.csv","utf8")
+  .await(function(err,data,top){
 
   data = d3.csv.parse(data);
+  top = d3.csv.parse(top);
 
   var output = {},
       years = d3.keys(data[0]).filter(function(d){
@@ -16,6 +21,9 @@ fs.readFile("rfb_baby_names.csv","utf8",function(err,data){
       byYear = {};
       output = {
         "years": [],
+        "top": top.map(function(d){
+          return d.Girls;
+        }),
         "states": {}
       };
 
