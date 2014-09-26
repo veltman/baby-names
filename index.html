@@ -266,7 +266,7 @@ queue()
   .await(function(error,geo,data) {
 
     geo.features = geo.features.filter(function(d){
-      return d.properties.name != "District of Columbia";
+      return d.properties.name != "District of Columbia" && d.properties.name != "Puerto Rico";
     });
 
     if (error) return console.log(error); //unknown error, check the console
