@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
-<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Lato:400,700,900" type="text/css">
+<script src="//use.typekit.net/igb2znb.js"></script>
+<script>try{Typekit.load();}catch(e){}</script>
 <link rel="stylesheet" href="jquery.nouislider.css" type="text/css">
 <style>
 
 body {
-  font-family: "Lato", Arial, Helvetica, Verdana, sans-serif;
+  font-family: "brandon-grotesque", "Lato", Arial, Helvetica, Verdana, sans-serif;
   font-size: 14px;
   background-color: #fff;
 }
@@ -200,12 +201,10 @@ div.noUi-handle:hover {
 
 text.state-label {
   text-anchor: middle;
-  font-size: 13px;
-}
-
-text.state-label.top {
-  font-weight: bold;
-  font-size: 16px;
+  font-weight: 900;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: -0.05em;
 }
 
 </style>
@@ -263,7 +262,8 @@ var blocksG = chart.append("g"),
 queue()
   .defer(d3.json,"us-states.geojson")
   .defer(d3.json,"baby-names.json")
-  .await(function(error,geo,data) {
+  .defer(d3.json,"transforms.json")
+  .await(function(error,geo,data,transforms) {
 
     geo.features = geo.features.filter(function(d){
       return d.properties.name != "District of Columbia" && d.properties.name != "Puerto Rico";
@@ -287,7 +287,34 @@ queue()
       }))
       .enter()
       .append("text")
+        .attr("transform",function(d){
+
+          var t = [];
+
+          if (transforms[d.name]) {
+
+            if (transforms[d.name].rotate) {
+              t.push("rotate("+ transforms[d.name].rotate +" "+ d.center[0] +" "+ d.center[1] +")");
+            }
+
+            if (transforms[d.name].scale) {
+              t.push("scale("+transforms[d.name].scale+")");
+            }
+
+            if (transforms[d.name].translate) {
+              t.push("translate("+transforms[d.name].translate.join(" ")+")");
+            }
+
+            console.log(t);
+
+          }
+
+          return t.join(" ");
+        })
         .attr("class","state-label")
+        .attr("id",function(d){
+          return d.name.toLowerCase().replace(" ","-");
+        })
         .attr("x",function(d){
           return d.center[0];
         })
@@ -390,6 +417,8 @@ queue()
         return data.states[d.name][year - minYear];
       }).classed("top",function(d){
         return data.top[year - minYear] == data.states[d.name][year - minYear];
+      }).classed(function(d){
+
       });
 
       $slider.val(year);
@@ -410,7 +439,7 @@ queue()
 
       names = names.slice(0,names.length-1);
 
-      var scale = d3.scale.ordinal().domain(names.slice(0,names.length-1)).rangeBands([76,216]);
+      var scale = d3.scale.ordinal().domain(names.slice(0,names.length-1)).rangeBands([96,216]);
 
       var dict = {};
 

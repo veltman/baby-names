@@ -1,0 +1,16 @@
+{
+  "Alaska": {
+    "rotate": -14,
+    "scale": 0.65,
+    "translate": [45,168]
+  },
+  "Hawaii": {
+    "scale": 0.8,
+    "translate": [23,85]
+  },
+  "California": {
+    "rotate": 8,
+    "scale": 0.7,
+    "translate": [28,76]
+  }
+}
