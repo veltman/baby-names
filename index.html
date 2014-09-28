@@ -293,10 +293,6 @@ queue()
 
           if (transforms[d.name]) {
 
-            if (transforms[d.name].rotate) {
-              t.push("rotate("+ transforms[d.name].rotate +" "+ d.center[0] +" "+ d.center[1] +")");
-            }
-
             if (transforms[d.name].scale) {
               t.push("scale("+transforms[d.name].scale+")");
             }
@@ -305,7 +301,9 @@ queue()
               t.push("translate("+transforms[d.name].translate.join(" ")+")");
             }
 
-            console.log(t);
+            if (transforms[d.name].rotate) {
+              t.push("rotate("+ transforms[d.name].rotate +" "+ d.center[0] +" "+ d.center[1] +")");
+            }
 
           }
 
@@ -361,7 +359,9 @@ queue()
       else start();
     });
 
-    start();
+    year = 1974;
+    update();
+    //start();
 
     function start() {
 

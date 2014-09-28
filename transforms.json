@@ -12,5 +12,238 @@
     "rotate": 8,
     "scale": 0.7,
     "translate": [28,76]
+  },
+  "Nevada": {
+    "rotate": 12,
+    "scale": 0.93,
+    "translate": [4,9]
+  },
+  "Oregon": {
+    "rotate": 12,
+    "translate": [-1,2]
+  },
+  "Washington": {
+    "rotate": 12,
+    "scale": 0.9,
+    "translate": [10,5]
+  },
+  "Idaho": {
+    "rotate": 10,
+    "scale": 0.85,
+    "translate": [28,34]
+  },
+  "Montana": {
+    "rotate": 6,
+    "scale": 1.3,
+    "translate": [-40,-12]
+  },
+  "Wyoming": {
+    "rotate": 5,
+    "scale": 1,
+    "translate": [0,2]
+  },
+  "Utah": {
+    "rotate": 8,
+    "scale": 0.75,
+    "translate": [52,55]
+  },
+  "Arizona": {
+    "rotate": 8,
+    "scale": 0.85,
+    "translate": [25,40]
+  },
+  "New Mexico": {
+    "rotate": 5,
+    "translate": [0,2]
+  },
+  "Colorado": {
+    "rotate": 5,
+    "scale": 1.1,
+    "translate": [-20,-14]
+  },
+  "North Dakota": {
+    "rotate": 2,
+    "scale": 0.95,
+    "translate": [14,5]
+  },
+  "South Dakota": {
+    "rotate": 2,
+    "scale": 1.1,
+    "translate": [-25,-8]
+  },
+  "Nebraska": {
+    "rotate": 3,
+    "scale": 1.1,
+    "translate": [-26,-14]
+  },
+  "Kansas": {
+    "rotate": 1,
+    "scale": 1.15,
+    "translate": [-37,-22]
+  },
+  "Oklahoma": {
+    "rotate": 1,
+    "scale": 0.95,
+    "translate": [18,14]
+  },
+  "Texas": {
+    "rotate": 0,
+    "scale": 1.5,
+    "translate": [-88,-86]
+  },
+  "Louisiana": {
+    "rotate": -3,
+    "scale": 0.75,
+    "translate": [120,103]
+  },
+  "Arkansas": {
+    "rotate": -2,
+    "scale": 0.72,
+    "translate": [134,82]
+  },
+  "Missouri": {
+    "rotate": -3,
+    "scale": 0.72,
+    "translate": [132,72]
+  },
+  "Iowa": {
+    "rotate": 0,
+    "scale": 1,
+    "translate": [0,0]
+  },
+  "Minnesota": {
+    "rotate": 0,
+    "scale": 1,
+    "translate": [0,0]
+  },
+  "Wisconsin": {
+    "rotate": 0,
+    "scale": 1,
+    "translate": [0,0]
+  },
+  "Michigan": {
+    "rotate": 0,
+    "scale": 1,
+    "translate": [0,0]
+  },
+  "Illinois": {
+    "rotate": 0,
+    "scale": 1,
+    "translate": [0,0]
+  },
+  "Mississippi": {
+    "rotate": -2,
+    "scale": 0.5,
+    "translate": [372,228]
+  },
+  "Tennessee": {
+    "rotate": 0,
+    "scale": 1,
+    "translate": [0,0]
+  },
+  "Kentucky": {
+    "rotate": 0,
+    "scale": 1,
+    "translate": [0,0]
+  },
+  "Indiana": {
+    "rotate": 0,
+    "scale": 1,
+    "translate": [0,0]
+  },
+  "Ohio": {
+    "rotate": 0,
+    "scale": 1,
+    "translate": [0,0]
+  },
+  "Florida": {
+    "rotate": 60,
+    "scale": 0.9,
+    "translate": [62,40]
+  },
+  "Alabama": {
+    "rotate": -5,
+    "scale": 0.6,
+    "translate": [272,170]
+  },
+  "Georgia": {
+    "rotate": -5,
+    "scale": 0.7,
+    "translate": [190,102]
+  },
+  "South Carolina": {
+    "rotate": 0,
+    "scale": 1,
+    "translate": [0,0]
+  },
+  "North Carolina": {
+    "rotate": 0,
+    "scale": 1,
+    "translate": [0,0]
+  },
+  "Virginia": {
+    "rotate": 0,
+    "scale": 1,
+    "translate": [0,0]
+  },
+  "West Virginia": {
+    "rotate": 0,
+    "scale": 1,
+    "translate": [0,0]
+  },
+  "Maryland": {
+    "rotate": 0,
+    "scale": 1,
+    "translate": [0,0]
+  },
+  "Delaware": {
+    "rotate": 0,
+    "scale": 1,
+    "translate": [0,0]
+  },
+  "Pennsylvania": {
+    "rotate": 0,
+    "scale": 1,
+    "translate": [0,0]
+  },
+  "New Jersey": {
+    "rotate": 0,
+    "scale": 1,
+    "translate": [0,0]
+  },
+  "New York": {
+    "rotate": 0,
+    "scale": 1,
+    "translate": [0,0]
+  },
+  "Connecticut": {
+    "rotate": 0,
+    "scale": 1,
+    "translate": [0,0]
+  },
+  "Rhode Island": {
+    "rotate": 0,
+    "scale": 1,
+    "translate": [0,0]
+  },
+  "Massachusetts": {
+    "rotate": 0,
+    "scale": 1,
+    "translate": [0,0]
+  },
+  "Vermont": {
+    "rotate": 0,
+    "scale": 1,
+    "translate": [0,0]
+  },
+  "New Hampshire": {
+    "rotate": 0,
+    "scale": 1,
+    "translate": [0,0]
+  },
+  "Maine": {
+    "rotate": 0,
+    "scale": 1,
+    "translate": [0,0]
   }
 }
