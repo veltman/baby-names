@@ -22,6 +22,16 @@ path {
   cursor: pointer;
 }
 
+path.line {
+  stroke-width: 1px;
+  stroke: black;
+  fill: none;
+}
+
+rect {
+  shape-rendering: crispEdges;
+}
+
 div {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -49,72 +59,36 @@ div.container {
   fill: rgb(225,201,38);
 }
 
-.Mary.light {
-  fill: rgba(225,201,38,0.2);
-}
-
 .Lisa{
   fill: rgb(94,182,100);
-}
-
-.Lisa.light {
-  fill: rgba(94,182,100,0.2);
 }
 
 .Jennifer{
   fill: rgb(240,95,81);
 }
 
-.Jennifer.light {
-  fill: rgba(240,95,81,0.2);
-}
-
 .Ashley{
   fill: rgb(249,163,46);
-}
-
-.Ashley.light {
-  fill: rgba(249,163,46,0.2);
 }
 
 .Jessica{
   fill: rgb(84,166,216);
 }
 
-.Jessica.light {
-  fill: rgba(84,166,216,0.2);
-}
-
 .Emily{
   fill: rgb(177,123,177);
-}
-
-.Emily.light {
-  fill: rgba(177,123,177,0.2);
 }
 
 .Emma{
   fill: rgb(141,207,187);
 }
 
-.Emma.light {
-  fill: rgba(141,207,187,0.2);
-}
-
 .Isabella{
   fill: rgb(241,131,173);
 }
 
-.Isabella.light {
-  fill: rgba(241,131,173,0.2);
-}
-
 .Sophia{
   fill: rgb(179,141,46);
-}
-
-.Sophia.light {
-  fill: rgba(179,141,46,0.2);
 }
 
 .hidden {
@@ -203,8 +177,17 @@ text.state-label {
   text-anchor: middle;
   font-weight: 900;
   font-size: 12px;
+  color: black;
   text-transform: uppercase;
   letter-spacing: -0.05em;
+}
+
+text.state-label.start {
+  text-anchor: start;
+}
+
+text.state-label.end {
+  text-anchor: end;
 }
 
 </style>
@@ -263,7 +246,8 @@ queue()
   .defer(d3.json,"us-states.geojson")
   .defer(d3.json,"baby-names.json")
   .defer(d3.json,"transforms.json")
-  .await(function(error,geo,data,transforms) {
+  .defer(d3.json,"lines.json")
+  .await(function(error,geo,data,transforms,lines) {
 
     geo.features = geo.features.filter(function(d){
       return d.properties.name != "District of Columbia" && d.properties.name != "Puerto Rico";
@@ -272,11 +256,25 @@ queue()
     if (error) return console.log(error); //unknown error, check the console
 
     //Create a path for each map feature in the data
-    states = svg.selectAll("path")
+    states = svg.append("g")
+      .attr("class","states")
+      .selectAll("path")
       .data(geo.features)
       .enter()
       .append("path")
-      .attr("d",path);
+        .attr("d",path);
+
+    svg.selectAll("path.line")
+      .data(d3.values(lines).map(function(d){
+        return {
+          "type": "LineString",
+          "coordinates": d
+        }
+      }))
+      .enter()
+      .append("path")
+      .attr("d",path)
+      .attr("class","line");
 
     labels = svg.selectAll("text.state-label")
       .data(geo.features.map(function(d){
@@ -309,7 +307,19 @@ queue()
 
           return t.join(" ");
         })
-        .attr("class","state-label")
+        .attr("class",function(d){
+
+          var c = "state-label";
+
+          if (["Maryland","Delaware","New Jersey","Massachusetts","Connecticut","Rhode Island"].indexOf(d.name) != -1) {
+            c += " start";
+          } else if (["Vermont","New Hampshire"].indexOf(d.name) != -1) {
+            c += " end";
+          }
+
+          return c;
+
+        })
         .attr("id",function(d){
           return d.name.toLowerCase().replace(" ","-");
         })
