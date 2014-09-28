@@ -234,12 +234,12 @@
   "Vermont": {
     "rotate": 0,
     "scale": 0.6,
-    "translate": [326,8]
+    "translate": [326,9]
   },
   "New Hampshire": {
     "rotate": 0,
     "scale": 0.6,
-    "translate": [342,-12]
+    "translate": [344,-11]
   },
   "Maine": {
     "rotate": -18,
