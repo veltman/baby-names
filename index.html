@@ -13,6 +13,8 @@ body {
 
 svg {
   background-color: #f6f6f6;
+  width: 100%;
+  display: block;
 }
 
 path {
@@ -22,7 +24,7 @@ path {
   cursor: pointer;
 }
 
-path.line {
+path.small-state {
   stroke-width: 1px;
   stroke: black;
   fill: none;
@@ -41,6 +43,7 @@ div {
 div.container {
   margin-left: auto;
   margin-right: auto;
+  max-width: 720px;
 }
 
 .grey3 {
@@ -190,6 +193,19 @@ text.state-label.end {
   text-anchor: end;
 }
 
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #444;
+  shape-rendering: crispEdges;
+}
+
+.axis text {
+  font-size: 12px;
+  font-weight: 700;
+  color: #444;
+}
+
 </style>
 <body>
 <div class="container">
@@ -205,11 +221,14 @@ text.state-label.end {
 //Map dimensions (in pixels)
 var width = 600,
     mapHeight = 350,
-    chartHeight = 60,
-    chartMargin = {top: 20, left: 10, right: 10, bottom: 10},
-    height = mapHeight + chartHeight,
+    chartHeight = 20,
+    chartMargin = {top: 50, left: 20, right: 20, bottom: 30},
+    height = mapHeight + chartHeight + chartMargin.top + chartMargin.bottom,
     minYear = 1960,
     maxYear = 2012,
+    scale = d3.scale.ordinal()
+      .domain(d3.range(minYear,maxYear+1))
+      .rangeBands([0,width-chartMargin.right-chartMargin.left]),
     year = minYear,
     states,
     interval,
@@ -227,20 +246,21 @@ var path = d3.geo.path()
 
 //Create an SVG
 var svg = d3.select("div.container")
-      .style("width",width+"px")
+      //.style("width",width+"px")
         .select("div.svg")
           .append("svg")
-            .attr("width", width)
-            .attr("height", height);
+          .attr("preserveAspectRatio","xMinYMin meet")
+          .attr("viewBox","0 0 "+width+" "+height);
+//            .attr("width", width)
+//            .attr("height", height);
 
 var chart = svg.append("g")
               .attr("class","chart")
               .attr("transform","translate("+chartMargin.left+" "+(mapHeight+chartMargin.top)+")");
 
-var blocksG = chart.append("g"),
+var blocksG = chart.append("g")
+    .attr("class","blocks"),
     blocks;
-
-//Do axis ticks here
 
 queue()
   .defer(d3.json,"us-states.geojson")
@@ -250,7 +270,9 @@ queue()
   .await(function(error,geo,data,transforms,lines) {
 
     geo.features = geo.features.filter(function(d){
-      return d.properties.name != "District of Columbia" && d.properties.name != "Puerto Rico";
+
+        return d.properties.name != "District of Columbia" && d.properties.name != "Puerto Rico";
+
     });
 
     if (error) return console.log(error); //unknown error, check the console
@@ -264,7 +286,7 @@ queue()
       .append("path")
         .attr("d",path);
 
-    svg.selectAll("path.line")
+    svg.selectAll("path.small-state")
       .data(d3.values(lines).map(function(d){
         return {
           "type": "LineString",
@@ -274,7 +296,7 @@ queue()
       .enter()
       .append("path")
       .attr("d",path)
-      .attr("class","line");
+      .attr("class","small-state");
 
     labels = svg.selectAll("text.state-label")
       .data(geo.features.map(function(d){
@@ -331,22 +353,50 @@ queue()
         })
         .attr("dy","0.25em");
 
-    var blockWidth = Math.round((width - chartMargin.left - chartMargin.right)/data.years.length);
-
     blocks = blocksG.selectAll("rect")
               .data(data.top)
               .enter()
               .append("rect")
-              .attr("width",blockWidth)
-              .attr("height",chartHeight - chartMargin.top - chartMargin.bottom)
+              .attr("width",scale.rangeBand())
+              .attr("height",chartHeight)
               .attr("x",function(d,i){
-                return i*blockWidth;
+                console.log(minYear,scale(i+minYear));
+                console.log(scale.domain());
+                return scale(i+minYear);
               })
               .attr("y",0)
               .attr("class",function(d){
                 return d+" hidden";
               });
-    
+
+    var xAxis = d3.svg.axis()
+        .scale(scale)
+        .orient("bottom")
+        .tickValues(d3.range(minYear,maxYear+1))
+        .outerTickSize(0)
+        .innerTickSize(4)
+        .tickFormat(function(t){
+          return t % 5 ? "" : +t;
+        });
+
+    var axis = blocksG.append("g")
+      .attr("class","axis")
+      .attr("transform","translate(-"+(scale.rangeBand()/2)+" "+(chartHeight)+")")
+      .call(xAxis);
+
+    axis.selectAll("text")
+      .attr("y",12)
+      .attr("dx","-1px")
+      .style("text-anchor","start");
+
+    axis.selectAll("line")
+      .attr("y2",function(d,i){
+        if (i % 5) {
+          return 4;
+        }
+
+        return 9;
+      });
 
     $slider.noUiSlider({
       start: minYear,
