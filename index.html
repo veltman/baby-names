@@ -1,485 +1,491 @@
 <!DOCTYPE html>
-<meta charset="utf-8">
-<script src="//use.typekit.net/igb2znb.js"></script>
-<script>try{Typekit.load();}catch(e){}</script>
-<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
-<style>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
 
-body {
-  font-family: "brandon-grotesque", "Lato", Arial, Helvetica, Verdana, sans-serif;
-  font-size: 14px;
-  background-color: #fff;
-}
+    <script src="//use.typekit.net/igb2znb.js"></script>
+    <script>try{Typekit.load();}catch(e){}</script>
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+    <style>
 
-svg {
-  background-color: #f6f6f6;
-  width: 100%;
-  display: block;
-}
+      body {
+        font-family: "brandon-grotesque", "Lato", Arial, Helvetica, Verdana, sans-serif;
+        font-size: 14px;
+        background-color: #fff;
+      }
 
-path {
-  stroke-width: 1px;
-  stroke: white;
-  fill: #d9d9d9;
-  cursor: pointer;
-}
+      svg {
+        background-color: #f6f6f6;
+        width: 100%;
+        display: block;
+      }
 
-path.small-state {
-  stroke-width: 1px;
-  stroke: black;
-  fill: none;
-}
+      path {
+        stroke-width: 1px;
+        stroke: white;
+        fill: #d9d9d9;
+        cursor: pointer;
+      }
 
-rect {
-  shape-rendering: crispEdges;
-  cursor: pointer;
-}
+      path.small-state {
+        stroke-width: 1px;
+        stroke: black;
+        fill: none;
+      }
 
-div {
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-}
+      rect {
+        shape-rendering: crispEdges;
+        cursor: pointer;
+      }
 
-div.container {
-  margin-left: auto;
-  margin-right: auto;
-  max-width: 720px;
-}
+      div {
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+      }
 
-.grey3 {
-  fill: #4c4c4c;
-}
+      div.container {
+        margin-left: auto;
+        margin-right: auto;
+        max-width: 720px;
+      }
 
-.grey2 {
-  fill: #b3b3b3;
-}
+      .grey3 {
+        fill: #4c4c4c;
+      }
 
-.grey1 {
-  fill: #d9d9d9;
-}
+      .grey2 {
+        fill: #b3b3b3;
+      }
 
-.Mary{
-  fill: rgb(225,201,38);
-}
+      .grey1 {
+        fill: #d9d9d9;
+      }
 
-.Lisa{
-  fill: rgb(94,182,100);
-}
+      .Mary{
+        fill: rgb(225,201,38);
+      }
 
-.Jennifer{
-  fill: rgb(240,95,81);
-}
+      .Lisa{
+        fill: rgb(94,182,100);
+      }
 
-.Ashley{
-  fill: rgb(249,163,46);
-}
+      .Jennifer{
+        fill: rgb(240,95,81);
+      }
 
-.Jessica{
-  fill: rgb(84,166,216);
-}
+      .Ashley{
+        fill: rgb(249,163,46);
+      }
 
-.Emily{
-  fill: rgb(177,123,177);
-}
+      .Jessica{
+        fill: rgb(84,166,216);
+      }
 
-.Emma{
-  fill: rgb(141,207,187);
-}
+      .Emily{
+        fill: rgb(177,123,177);
+      }
 
-.Isabella{
-  fill: rgb(241,131,173);
-}
+      .Emma{
+        fill: rgb(141,207,187);
+      }
 
-.Sophia{
-  fill: rgb(179,141,46);
-}
+      .Isabella{
+        fill: rgb(241,131,173);
+      }
 
-.hidden {
-  fill: #f6f6f6;
-}
+      .Sophia{
+        fill: rgb(179,141,46);
+      }
 
-text.state-label {
-  text-anchor: middle;
-  font-weight: 900;
-  font-size: 12px;
-  color: black;
-  text-transform: uppercase;
-  letter-spacing: -0.05em;
-}
+      .hidden {
+        fill: #f6f6f6;
+      }
 
-text.state-label.start {
-  text-anchor: start;
-}
+      text.state-label {
+        text-anchor: middle;
+        font-weight: 900;
+        font-size: 12px;
+        color: black;
+        text-transform: uppercase;
+        letter-spacing: -0.05em;
+      }
 
-text.state-label.end {
-  text-anchor: end;
-}
+      text.state-label.start {
+        text-anchor: start;
+      }
 
-text.display-name,
-text.display-year {
-  font-weight: 900;
-  text-transform: uppercase;
-}
+      text.state-label.end {
+        text-anchor: end;
+      }
 
-text.display-name {
-  font-size: 36px;
-  text-anchor: start;
-}
+      text.display-name,
+      text.display-year {
+        font-weight: 900;
+        text-transform: uppercase;
+      }
 
-text.display-year {
-  font-size: 32px;
-  text-anchor: end;
-}
+      text.display-name {
+        font-size: 36px;
+        text-anchor: start;
+      }
 
-.axis path,
-.axis line {
-  fill: none;
-  stroke: #444;
-  shape-rendering: crispEdges;
-}
+      text.display-year {
+        font-size: 32px;
+        text-anchor: end;
+      }
 
-.axis text {
-  font-size: 12px;
-  font-weight: 700;
-  color: #444;
-}
+      .axis path,
+      .axis line {
+        fill: none;
+        stroke: #444;
+        shape-rendering: crispEdges;
+      }
 
-div.controls {
-  padding-top: 12px;
-}
+      .axis text {
+        font-size: 12px;
+        font-weight: 700;
+        color: #444;
+      }
 
-div.controls i {
-  margin-right: 16px;
-  cursor: pointer;
-  color: #666;
-  display: block;
-  float: right;
-  width: 24px;
-}
+      div.controls {
+        padding-top: 12px;
+      }
 
-div.controls i:hover {
-  color: #222;
-}
+      div.controls i {
+        margin-right: 16px;
+        cursor: pointer;
+        color: #666;
+        display: block;
+        float: right;
+        width: 24px;
+      }
 
-</style>
-<body>
-<div class="container">
-  <div class="svg"></div>
-  <div class="controls"><i class="fa fa-2x fa-refresh"></i><i class="fa fa-2x fa-play"></i></div>
-</div>
-<script src="http://d3js.org/d3.v3.min.js"></script>
-<script src="http://d3js.org/queue.v1.min.js"></script>
-<script>
+      div.controls i:hover {
+        color: #222;
+      }
 
-//Map dimensions (in pixels)
-var width = 600,
-    mapHeight = 350,
-    chartHeight = 20,
-    chartMargin = {top: 50, left: 20, right: 20, bottom: 30},
-    height = mapHeight + chartHeight + chartMargin.top + chartMargin.bottom,
-    minYear = 1960,
-    maxYear = 2012,
-    scale = d3.scale.ordinal()
-      .domain(d3.range(minYear,maxYear+1))
-      .rangeBands([0,width-chartMargin.right-chartMargin.left]),
-    year = minYear,
-    states,
-    interval;
-    playButton = d3.select("div.controls i.fa-play");
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="svg"></div>
+      <div class="controls"><i class="fa fa-2x fa-refresh"></i><i class="fa fa-2x fa-play"></i></div>
+    </div>
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+    <script src="http://d3js.org/queue.v1.min.js"></script>
+    <script>
 
-//Map projection
-var projection = d3.geo.albersUsa()
-    .scale(730.3062176506107)
-    .translate([width/2,mapHeight/2]) //translate to center the map in view
+    //Map dimensions (in pixels)
+    var width = 600,
+        mapHeight = 350,
+        chartHeight = 20,
+        chartMargin = {top: 50, left: 20, right: 20, bottom: 30},
+        height = mapHeight + chartHeight + chartMargin.top + chartMargin.bottom,
+        minYear = 1960,
+        maxYear = 2012,
+        scale = d3.scale.ordinal()
+          .domain(d3.range(minYear,maxYear+1))
+          .rangeBands([0,width-chartMargin.right-chartMargin.left]),
+        year = minYear,
+        states,
+        interval;
+        playButton = d3.select("div.controls i.fa-play");
 
-//Generate paths based on projection
-var path = d3.geo.path()
-    .projection(projection);
+    //Map projection
+    var projection = d3.geo.albersUsa()
+        .scale(730.3062176506107)
+        .translate([width/2,mapHeight/2]) //translate to center the map in view
 
-//Create an SVG
-var svg = d3.select("div.container")
-      //.style("width",width+"px")
-        .select("div.svg")
-          .append("svg")
-          .attr("preserveAspectRatio","xMinYMin meet")
-          .attr("viewBox","0 0 "+width+" "+height);
+    //Generate paths based on projection
+    var path = d3.geo.path()
+        .projection(projection);
 
-var displayYear = svg.append("text")
-            .attr("class","display-year")
-            .attr("transform","translate("+(width-210)+" "+mapHeight+")")
-            .attr("x",0)
-            .attr("y",20),
-    displayName = svg.append("text")
-                    .attr("class","display-name")
-                    .attr("dx","4px")
-                    .attr("dy","1px")
-                    .attr("x",4)
-                    .attr("y",21)
-                    .attr("transform","translate("+(width-210)+" "+mapHeight+")");
+    //Create an SVG
+    var svg = d3.select("div.container")
+          //.style("width",width+"px")
+            .select("div.svg")
+              .append("svg")
+              .attr("preserveAspectRatio","xMinYMin meet")
+              .attr("viewBox","0 0 "+width+" "+height);
+
+    var displayYear = svg.append("text")
+                .attr("class","display-year")
+                .attr("transform","translate("+(width-210)+" "+mapHeight+")")
+                .attr("x",0)
+                .attr("y",20),
+        displayName = svg.append("text")
+                        .attr("class","display-name")
+                        .attr("dx","4px")
+                        .attr("dy","1px")
+                        .attr("x",4)
+                        .attr("y",21)
+                        .attr("transform","translate("+(width-210)+" "+mapHeight+")");
 
 
-var chart = svg.append("g")
-              .attr("class","chart")
-              .attr("transform","translate("+chartMargin.left+" "+(mapHeight+chartMargin.top)+")");
-var blocksG = chart.append("g")
-    .attr("class","blocks"),
-    blocks,
-    ticks;
+    var chart = svg.append("g")
+                  .attr("class","chart")
+                  .attr("transform","translate("+chartMargin.left+" "+(mapHeight+chartMargin.top)+")");
+    var blocksG = chart.append("g")
+        .attr("class","blocks"),
+        blocks,
+        ticks;
 
-queue()
-  .defer(d3.json,"us-states.geojson")
-  .defer(d3.json,"baby-names.json")
-  .defer(d3.json,"transforms.json")
-  .defer(d3.json,"lines.json")
-  .await(function(error,geo,data,transforms,lines) {
+    queue()
+      .defer(d3.json,"us-states.geojson")
+      .defer(d3.json,"baby-names.json")
+      .defer(d3.json,"transforms.json")
+      .defer(d3.json,"lines.json")
+      .await(function(error,geo,data,transforms,lines) {
 
-    geo.features = geo.features.filter(function(d){
+        geo.features = geo.features.filter(function(d){
 
-        return d.properties.name != "District of Columbia" && d.properties.name != "Puerto Rico";
+            return d.properties.name != "District of Columbia" && d.properties.name != "Puerto Rico";
 
-    });
-
-    if (error) return console.log(error); //unknown error, check the console
-
-    //Create a path for each map feature in the data
-    states = svg.append("g")
-      .attr("class","states")
-      .selectAll("path")
-      .data(geo.features)
-      .enter()
-      .append("path")
-        .attr("d",path);
-
-    svg.selectAll("path.small-state")
-      .data(d3.values(lines).map(function(d){
-        return {
-          "type": "LineString",
-          "coordinates": d
-        }
-      }))
-      .enter()
-      .append("path")
-      .attr("d",path)
-      .attr("class","small-state");
-
-    labels = svg.selectAll("text.state-label")
-      .data(geo.features.map(function(d){
-        return {
-          "name": d.properties.name,
-          "center": projection(d3.geo.centroid(d))
-        }
-      }))
-      .enter()
-      .append("text")
-        .attr("transform",function(d){
-
-          var t = [];
-
-          if (transforms[d.name]) {
-
-            if (transforms[d.name].scale) {
-              t.push("scale("+transforms[d.name].scale+")");
-            }
-
-            if (transforms[d.name].translate) {
-              t.push("translate("+transforms[d.name].translate.join(" ")+")");
-            }
-
-            if (transforms[d.name].rotate) {
-              t.push("rotate("+ transforms[d.name].rotate +" "+ d.center[0] +" "+ d.center[1] +")");
-            }
-
-          }
-
-          return t.join(" ");
-        })
-        .attr("class",function(d){
-
-          var c = "state-label";
-
-          if (["Maryland","Delaware","New Jersey","Massachusetts","Connecticut","Rhode Island"].indexOf(d.name) != -1) {
-            c += " start";
-          } else if (["Vermont","New Hampshire"].indexOf(d.name) != -1) {
-            c += " end";
-          }
-
-          return c;
-
-        })
-        .attr("id",function(d){
-          return d.name.toLowerCase().replace(" ","-");
-        })
-        .attr("x",function(d){
-          return d.center[0];
-        })
-        .attr("y",function(d){
-          return d.center[1];
-        })
-        .attr("dy","0.25em");
-
-    blocks = blocksG.selectAll("rect")
-              .data(data.top)
-              .enter()
-              .append("rect")
-              .attr("width",scale.rangeBand())
-              .attr("height",chartHeight)
-              .attr("x",function(d,i){
-                console.log(minYear,scale(i+minYear));
-                console.log(scale.domain());
-                return scale(i+minYear);
-              })
-              .attr("y",0)
-              .attr("class",function(d){
-                return d;
-              })
-              .on("click",function(d,i){
-                stop();
-                year = i+minYear;
-                update();
-              });
-
-    var xAxis = d3.svg.axis()
-        .scale(scale)
-        .orient("bottom")
-        .tickValues(d3.range(minYear,maxYear+1))
-        .outerTickSize(0)
-        .innerTickSize(4)
-        .tickFormat(function(t){
-          return t % 5 ? "" : +t;
         });
 
-    var axis = blocksG.append("g")
-      .attr("class","axis")
-      .attr("transform","translate(-"+(scale.rangeBand()/2)+" "+(chartHeight)+")")
-      .call(xAxis);
+        if (error) return console.log(error); //unknown error, check the console
 
-    axis.select("path.domain")
-      .attr("transform","translate("+(scale.rangeBand()/2)+")");
+        //Create a path for each map feature in the data
+        states = svg.append("g")
+          .attr("class","states")
+          .selectAll("path")
+          .data(geo.features)
+          .enter()
+          .append("path")
+            .attr("d",path);
 
-    axis.selectAll("text")
-      .attr("y",12)
-      .attr("dx","-1px")
-      .style("text-anchor","start");
+        svg.selectAll("path.small-state")
+          .data(d3.values(lines).map(function(d){
+            return {
+              "type": "LineString",
+              "coordinates": d
+            }
+          }))
+          .enter()
+          .append("path")
+          .attr("d",path)
+          .attr("class","small-state");
 
-    axis.selectAll("line")
-      .attr("y2",function(d,i){
-        if (i % 5) {
-          return 4;
+        labels = svg.selectAll("text.state-label")
+          .data(geo.features.map(function(d){
+            return {
+              "name": d.properties.name,
+              "center": projection(d3.geo.centroid(d))
+            }
+          }))
+          .enter()
+          .append("text")
+            .attr("transform",function(d){
+
+              var t = [];
+
+              if (transforms[d.name]) {
+
+                if (transforms[d.name].scale) {
+                  t.push("scale("+transforms[d.name].scale+")");
+                }
+
+                if (transforms[d.name].translate) {
+                  t.push("translate("+transforms[d.name].translate.join(" ")+")");
+                }
+
+                if (transforms[d.name].rotate) {
+                  t.push("rotate("+ transforms[d.name].rotate +" "+ d.center[0] +" "+ d.center[1] +")");
+                }
+
+              }
+
+              return t.join(" ");
+            })
+            .attr("class",function(d){
+
+              var c = "state-label";
+
+              if (["Maryland","Delaware","New Jersey","Massachusetts","Connecticut","Rhode Island"].indexOf(d.name) != -1) {
+                c += " start";
+              } else if (["Vermont","New Hampshire"].indexOf(d.name) != -1) {
+                c += " end";
+              }
+
+              return c;
+
+            })
+            .attr("id",function(d){
+              return d.name.toLowerCase().replace(" ","-");
+            })
+            .attr("x",function(d){
+              return d.center[0];
+            })
+            .attr("y",function(d){
+              return d.center[1];
+            })
+            .attr("dy","0.25em");
+
+        blocks = blocksG.selectAll("rect")
+                  .data(data.top)
+                  .enter()
+                  .append("rect")
+                  .attr("width",scale.rangeBand())
+                  .attr("height",chartHeight)
+                  .attr("x",function(d,i){
+                    console.log(minYear,scale(i+minYear));
+                    console.log(scale.domain());
+                    return scale(i+minYear);
+                  })
+                  .attr("y",0)
+                  .attr("class",function(d){
+                    return d;
+                  })
+                  .on("click",function(d,i){
+                    stop();
+                    year = i+minYear;
+                    update();
+                  });
+
+        var xAxis = d3.svg.axis()
+            .scale(scale)
+            .orient("bottom")
+            .tickValues(d3.range(minYear,maxYear+1))
+            .outerTickSize(0)
+            .innerTickSize(4)
+            .tickFormat(function(t){
+              return t % 5 ? "" : +t;
+            });
+
+        var axis = blocksG.append("g")
+          .attr("class","axis")
+          .attr("transform","translate(-"+(scale.rangeBand()/2)+" "+(chartHeight)+")")
+          .call(xAxis);
+
+        axis.select("path.domain")
+          .attr("transform","translate("+(scale.rangeBand()/2)+")");
+
+        axis.selectAll("text")
+          .attr("y",12)
+          .attr("dx","-1px")
+          .style("text-anchor","start");
+
+        axis.selectAll("line")
+          .attr("y2",function(d,i){
+            if (i % 5) {
+              return 4;
+            }
+
+            return 9;
+          });
+
+        ticks = axis.selectAll("g.ticks");
+
+        playButton.datum(false).on("click",function(d){
+          if (d) stop();
+          else start();
+        });
+
+        d3.select("i.fa-refresh").on("click",function(){
+          stop();
+          year = minYear;
+          start();
+        });
+
+        start();
+
+        function start() {
+
+          clearInterval(interval);
+
+          playButton.datum(true).classed("fa-pause",true);
+
+          update();
+
+          interval = setInterval(update,500);
+
         }
 
-        return 9;
-      });
+        function stop() {
 
-    ticks = axis.selectAll("g.ticks");
+          clearInterval(interval);
 
-    playButton.datum(false).on("click",function(d){
-      if (d) stop();
-      else start();
-    });
+          playButton.datum(false).classed("fa-pause",false);
 
-    d3.select("i.fa-refresh").on("click",function(){
-      stop();
-      year = minYear;
-      start();
-    });
-
-    start();
-
-    function start() {
-
-      clearInterval(interval);
-
-      playButton.datum(true).classed("fa-pause",true);
-
-      update();
-
-      interval = setInterval(update,500);
-
-    }
-
-    function stop() {
-
-      clearInterval(interval);
-
-      playButton.datum(false).classed("fa-pause",false);
-
-    }
-
-    function update() {
-
-      blocks.classed("hidden",function(d,i){
-        return i > year - minYear;
-      });
-
-      ticks.classed("hidden",function(d,i){
-        return i > year - minYear;
-      });
-
-      var greys = getGreys(data.years[year - minYear]);
-
-      states.attr("class",function(d){
-
-        var name = data.states[d.properties.name][year - minYear];
-
-        if (name == data.top[year - minYear]) {
-          return name;
         }
 
-        return "";
+        function update() {
 
-      }).style("fill",function(d){
+          blocks.classed("hidden",function(d,i){
+            return i > year - minYear;
+          });
 
-        var name = data.states[d.properties.name][year - minYear];
+          ticks.classed("hidden",function(d,i){
+            return i > year - minYear;
+          });
 
-        if (name == data.top[year - minYear]) {
-          return null;
+          var greys = getGreys(data.years[year - minYear]);
+
+          states.attr("class",function(d){
+
+            var name = data.states[d.properties.name][year - minYear];
+
+            if (name == data.top[year - minYear]) {
+              return name;
+            }
+
+            return "";
+
+          }).style("fill",function(d){
+
+            var name = data.states[d.properties.name][year - minYear];
+
+            if (name == data.top[year - minYear]) {
+              return null;
+            }
+
+            return greys[name];
+
+          });
+
+          displayName.text(data.top[year - minYear])
+            .attr("class","display-name "+data.top[year - minYear]);
+          displayYear.text(year+":");
+
+          labels.text(function(d){
+            return data.states[d.name][year - minYear];
+          }).classed("top",function(d){
+            return data.top[year - minYear] == data.states[d.name][year - minYear];
+          }).classed(function(d){
+
+          });
+
+          year++;
+
+          if (year > maxYear) {
+            year = minYear;
+          }
+
         }
 
-        return greys[name];
+        function getGreys(names) {
+
+          if (names.length == 1) {
+            return {};
+          }
+
+          names = names.slice(0,names.length-1);
+
+          var scale = d3.scale.ordinal().domain(names.slice(0,names.length-1)).rangeBands([96,216]);
+
+          var dict = {};
+
+          names.forEach(function(name){
+            var rgb = Math.round(scale(name) || 216);
+            dict[name] = "rgb("+[rgb,rgb,rgb].join(",")+")";
+          });
+
+          return dict;
+        }
 
       });
 
-      displayName.text(data.top[year - minYear])
-        .attr("class","display-name "+data.top[year - minYear]);
-      displayYear.text(year+":");
-
-      labels.text(function(d){
-        return data.states[d.name][year - minYear];
-      }).classed("top",function(d){
-        return data.top[year - minYear] == data.states[d.name][year - minYear];
-      }).classed(function(d){
-
-      });
-
-      year++;
-
-      if (year > maxYear) {
-        year = minYear;
-      }
-
-    }
-
-    function getGreys(names) {
-
-      if (names.length == 1) {
-        return {};
-      }
-
-      names = names.slice(0,names.length-1);
-
-      var scale = d3.scale.ordinal().domain(names.slice(0,names.length-1)).rangeBands([96,216]);
-
-      var dict = {};
-
-      names.forEach(function(name){
-        var rgb = Math.round(scale(name) || 216);
-        dict[name] = "rgb("+[rgb,rgb,rgb].join(",")+")";
-      });
-
-      return dict;
-    }
-
-  });
-
-</script>
+    </script>
+  </body>
+</html>
