@@ -2,7 +2,7 @@
 <meta charset="utf-8">
 <script src="//use.typekit.net/igb2znb.js"></script>
 <script>try{Typekit.load();}catch(e){}</script>
-<link rel="stylesheet" href="jquery.nouislider.css" type="text/css">
+<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
 <style>
 
 body {
@@ -32,6 +32,7 @@ path.small-state {
 
 rect {
   shape-rendering: crispEdges;
+  cursor: pointer;
 }
 
 div {
@@ -95,85 +96,7 @@ div.container {
 }
 
 .hidden {
-  display: none;
-}
-
-span.year {
-  position: relative;
-  top: 32px;
-  right: 3px;
-  text-align: center;
-  font-weight: bold;
-  display: block;
-  font-size: 16px;
-  pointer-events: none;
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
-
-div#play {
-  cursor: pointer;
-  float: left;
-  width: 51px;
-  height: 51px;
-  border: 1px solid #d9d9d9;
-  border-radius: 3px;
-  background: #fff;
-  padding-top: 15px;
-  letter-spacing: 0.03em;
-  text-transform: uppercase;
-  font-weight: bold;
-  color: #666;
-  box-shadow: inset 0 0 1px #fff,
-   inset 0 1px 7px #ebebeb,
-   0 3px 6px -3px #bbb;
-  text-align: center;
-  position: relative;
-  bottom: 15px;
-  margin-left: 40px;
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
-
-div.controls {
-  padding-top: 20px;
-}
-
-div#play:hover {
-   color: #333;
-   border-color: #999;
-}
-
-div#play:active {
-  left: 1px;
-  bottom: 14px;
-}
-
-div#slider {
-  float: left;
-  width: 300px;
-  margin-left: 40px;
-  margin-right: 20px;
-}
-
-div.noUi-base,div.noUi-handle {
-  cursor: pointer;
-}
-
-div.noUi-handle:hover {
-  border-color: #999;
-}
-
-.noUi-connect {
-  background-color: #d9d9d9;
+  fill: #f6f6f6;
 }
 
 text.state-label {
@@ -222,16 +145,31 @@ text.display-year {
   color: #444;
 }
 
+div.controls {
+  padding-top: 12px;
+}
+
+div.controls i {
+  margin-right: 16px;
+  cursor: pointer;
+  color: #666;
+  display: block;
+  float: right;
+  width: 24px;
+}
+
+div.controls i:hover {
+  color: #222;
+}
+
 </style>
 <body>
 <div class="container">
-<div class="svg"></div>
-<div class="controls"><div id="play">PLAY</div><div id="slider"></div><div class="clear"></div></div>
+  <div class="svg"></div>
+  <div class="controls"><i class="fa fa-2x fa-refresh"></i><i class="fa fa-2x fa-play"></i></div>
 </div>
 <script src="http://d3js.org/d3.v3.min.js"></script>
 <script src="http://d3js.org/queue.v1.min.js"></script>
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-<script src="jquery.nouislider.min.js"></script>
 <script>
 
 //Map dimensions (in pixels)
@@ -247,9 +185,8 @@ var width = 600,
       .rangeBands([0,width-chartMargin.right-chartMargin.left]),
     year = minYear,
     states,
-    interval,
-    $slider = $("#slider").css("width",(width-151)+"px"),
-    playButton = d3.select("div#play");
+    interval;
+    playButton = d3.select("div.controls i.fa-play");
 
 //Map projection
 var projection = d3.geo.albersUsa()
@@ -395,6 +332,11 @@ queue()
               .attr("y",0)
               .attr("class",function(d){
                 return d;
+              })
+              .on("click",function(d,i){
+                stop();
+                year = i+minYear;
+                update();
               });
 
     var xAxis = d3.svg.axis()
@@ -429,27 +371,17 @@ queue()
         return 9;
       });
 
-    ticks = axis.selectAll("g.tick");
-
-    $slider.noUiSlider({
-      start: minYear,
-      range: {
-        'min': minYear,
-        'max': maxYear
-      },
-      connect: "lower",
-      step: 1
-    });
-
-    $slider.on("slide click",function(e){
-      stop();
-      year = +$(this).val();
-      update();
-    });
+    ticks = axis.selectAll("g.ticks");
 
     playButton.datum(false).on("click",function(d){
       if (d) stop();
       else start();
+    });
+
+    d3.select("i.fa-refresh").on("click",function(){
+      stop();
+      year = minYear;
+      start();
     });
 
     start();
@@ -458,7 +390,7 @@ queue()
 
       clearInterval(interval);
 
-      playButton.datum(true).text("STOP");
+      playButton.datum(true).classed("fa-pause",true);
 
       update();
 
@@ -470,7 +402,7 @@ queue()
 
       clearInterval(interval);
 
-      playButton.datum(false).text("PLAY");
+      playButton.datum(false).classed("fa-pause",false);
 
     }
 
@@ -519,8 +451,6 @@ queue()
       }).classed(function(d){
 
       });
-
-      $slider.val(year);
 
       year++;
 
