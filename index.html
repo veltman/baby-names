@@ -193,6 +193,22 @@ text.state-label.end {
   text-anchor: end;
 }
 
+text.display-name,
+text.display-year {
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+text.display-name {
+  font-size: 36px;
+  text-anchor: start;
+}
+
+text.display-year {
+  font-size: 32px;
+  text-anchor: end;
+}
+
 .axis path,
 .axis line {
   fill: none;
@@ -252,13 +268,27 @@ var svg = d3.select("div.container")
           .attr("preserveAspectRatio","xMinYMin meet")
           .attr("viewBox","0 0 "+width+" "+height);
 
+var displayYear = svg.append("text")
+            .attr("class","display-year")
+            .attr("transform","translate("+(width-210)+" "+mapHeight+")")
+            .attr("x",0)
+            .attr("y",20),
+    displayName = svg.append("text")
+                    .attr("class","display-name")
+                    .attr("dx","4px")
+                    .attr("dy","1px")
+                    .attr("x",4)
+                    .attr("y",21)
+                    .attr("transform","translate("+(width-210)+" "+mapHeight+")");
+
+
 var chart = svg.append("g")
               .attr("class","chart")
               .attr("transform","translate("+chartMargin.left+" "+(mapHeight+chartMargin.top)+")");
-
 var blocksG = chart.append("g")
     .attr("class","blocks"),
-    blocks;
+    blocks,
+    ticks;
 
 queue()
   .defer(d3.json,"us-states.geojson")
@@ -364,7 +394,7 @@ queue()
               })
               .attr("y",0)
               .attr("class",function(d){
-                return d+" hidden";
+                return d;
               });
 
     var xAxis = d3.svg.axis()
@@ -382,6 +412,9 @@ queue()
       .attr("transform","translate(-"+(scale.rangeBand()/2)+" "+(chartHeight)+")")
       .call(xAxis);
 
+    axis.select("path.domain")
+      .attr("transform","translate("+(scale.rangeBand()/2)+")");
+
     axis.selectAll("text")
       .attr("y",12)
       .attr("dx","-1px")
@@ -395,6 +428,8 @@ queue()
 
         return 9;
       });
+
+    ticks = axis.selectAll("g.tick");
 
     $slider.noUiSlider({
       start: minYear,
@@ -445,6 +480,10 @@ queue()
         return i > year - minYear;
       });
 
+      ticks.classed("hidden",function(d,i){
+        return i > year - minYear;
+      });
+
       var greys = getGreys(data.years[year - minYear]);
 
       states.attr("class",function(d){
@@ -468,6 +507,10 @@ queue()
         return greys[name];
 
       });
+
+      displayName.text(data.top[year - minYear])
+        .attr("class","display-name "+data.top[year - minYear]);
+      displayYear.text(year+":");
 
       labels.text(function(d){
         return data.states[d.name][year - minYear];
